@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-.env
-/sampleOutput.json
 /.pnp
 .pnp.js
 

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
-  const { country, category, pageSize, setProgress } = props;
+  const { country, category, pageSize, setProgress, apiKey } = props;
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -21,8 +21,14 @@ const News = (props) => {
   const updateNews = useCallback(async (pageNum) => {
     setProgress(10);
     setLoading(true);
-    const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=4d1c9f8a34464cc9a20670f534989e1e&page=${pageNum}&pageSize=${pageSize}`;
+    setError(null);
+
     try {
+      if (!apiKey || apiKey === "YOUR_ACTUAL_API_KEY_HERE") {
+        throw new Error("REACT_APP_NEWS_API is not configured. Add your NewsAPI key to the .env file.");
+      }
+
+      const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=${pageNum}&pageSize=${pageSize}`;
       setProgress(30);
       const data = await fetch(url);
       if (!data.ok) {
@@ -46,11 +52,12 @@ const News = (props) => {
       console.error("News fetch failed", error);
       setProgress(100);
       setArticles([]);
-      setError("Unable to load news. Check your network or API settings.");
+      setError(error.message || "Unable to load news. Check your network or API settings.");
       setLoading(false);
       setTotalResults(0);
+      setHasMoreData(false);
     }
-  }, [setProgress, country, category, pageSize, setPage, setArticles, setTotalResults, setError, setLoading, setHasMoreData]);
+  }, [setProgress, apiKey, country, category, pageSize, setPage, setArticles, setTotalResults, setError, setLoading, setHasMoreData]);
   useEffect(() => {
     updateNews(1);
   }, [updateNews]);
@@ -132,6 +139,7 @@ const News = (props) => {
     pageSize: PropTypes.number,
     category: PropTypes.string,
     setProgress: PropTypes.func,
+    apiKey: PropTypes.string,
   };
 
 export default News;
