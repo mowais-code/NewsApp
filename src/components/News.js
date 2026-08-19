@@ -33,14 +33,25 @@ const News = (props) => {
       const url = `${process.env.REACT_APP_NEWS_API_URL || "/api/news"}?${params}`;
       setProgress(30);
       const data = await fetch(url);
+      const responseText = await data.text();
+      let parsedData;
+
+      try {
+        parsedData = JSON.parse(responseText);
+      } catch (parseError) {
+        if (responseText.trimStart().startsWith("<")) {
+          throw new Error("The news endpoint returned an HTML page. Deploy the /api/news serverless function or set REACT_APP_NEWS_API_URL to a JSON API.");
+        }
+        throw new Error("The news endpoint returned an invalid response.");
+      }
+
       if (!data.ok) {
         if (data.status === 426) {
           throw new Error("NewsAPI requires a production plan for this deployment.");
         }
-        throw new Error(`NewsAPI request failed: ${data.status}`);
+        throw new Error(parsedData.message || `NewsAPI request failed: ${data.status}`);
       }
       setProgress(70);
-      const parsedData = await data.json();
       console.log(parsedData);
       setProgress(100);
       setPage(pageNum);

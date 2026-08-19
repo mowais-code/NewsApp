@@ -73,6 +73,8 @@ This repository includes a Vercel-compatible serverless proxy at `api/news.js`. 
 
 The frontend calls `/api/news`, so the API key remains on the server. For other hosting providers, adapt `api/news.js` to that provider's serverless-function format.
 
+When running only `npm start`, Create React App does not execute files in `api/`; `/api/news` will return the app's HTML fallback. Use a host that supports the serverless function, or set `REACT_APP_NEWS_API_URL` to an API endpoint that returns JSON.
+
 Never commit `.env` or expose a NewsAPI key in frontend source. If a key has already been published, revoke it in the NewsAPI dashboard and create a new one.
 
 For the standard Create React App deployment guide, see [the official documentation](https://facebook.github.io/create-react-app/docs/deployment).
