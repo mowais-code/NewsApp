@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
-  const { country, category, pageSize, setProgress, apiKey } = props;
+  const { country, category, pageSize, setProgress } = props;
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -24,16 +24,18 @@ const News = (props) => {
     setError(null);
 
     try {
-      if (!apiKey || apiKey === "YOUR_ACTUAL_API_KEY_HERE") {
-        throw new Error("REACT_APP_NEWS_API is not configured. Add your NewsAPI key to the .env file.");
-      }
-
-      const url = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}&page=${pageNum}&pageSize=${pageSize}`;
+      const params = new URLSearchParams({
+        country,
+        category,
+        page: String(pageNum),
+        pageSize: String(pageSize),
+      });
+      const url = `${process.env.REACT_APP_NEWS_API_URL || "/api/news"}?${params}`;
       setProgress(30);
       const data = await fetch(url);
       if (!data.ok) {
         if (data.status === 426) {
-          throw new Error("NewsAPI blocks browser requests from deployed sites on the free plan. Use a server-side proxy or upgrade your NewsAPI plan.");
+          throw new Error("NewsAPI requires a production plan for this deployment.");
         }
         throw new Error(`NewsAPI request failed: ${data.status}`);
       }
@@ -60,7 +62,7 @@ const News = (props) => {
       setTotalResults(0);
       setHasMoreData(false);
     }
-  }, [setProgress, apiKey, country, category, pageSize, setPage, setArticles, setTotalResults, setError, setLoading, setHasMoreData]);
+  }, [setProgress, country, category, pageSize, setPage, setArticles, setTotalResults, setError, setLoading, setHasMoreData]);
   useEffect(() => {
     updateNews(1);
   }, [updateNews]);
@@ -142,7 +144,6 @@ const News = (props) => {
     pageSize: PropTypes.number,
     category: PropTypes.string,
     setProgress: PropTypes.func,
-    apiKey: PropTypes.string,
   };
 
 export default News;

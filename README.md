@@ -65,10 +65,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 NewsAPI's free Developer plan only allows requests from `localhost`. A deployed frontend calls NewsAPI from the user's browser, so it returns `426 Upgrade Required` even when the API key is valid.
 
-To deploy this app, choose one of these options:
+This repository includes a Vercel-compatible serverless proxy at `api/news.js`. To deploy with it:
 
-- Upgrade NewsAPI to a plan that permits production requests, then add `REACT_APP_NEWS_API` in the hosting provider's build environment and redeploy.
-- Keep the free plan and add a server-side proxy/serverless function. Store the key only in that server's environment, have the frontend call the proxy, and remove `REACT_APP_NEWS_API` from the browser bundle.
+1. Deploy the repository to Vercel.
+2. Add `NEWS_API_KEY` as a Vercel environment variable for the Production environment.
+3. Redeploy the project.
+
+The frontend calls `/api/news`, so the API key remains on the server. For other hosting providers, adapt `api/news.js` to that provider's serverless-function format.
 
 Never commit `.env` or expose a NewsAPI key in frontend source. If a key has already been published, revoke it in the NewsAPI dashboard and create a new one.
 

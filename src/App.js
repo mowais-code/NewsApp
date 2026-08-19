@@ -8,7 +8,6 @@ import LoadingBar from "react-top-loading-bar";
 
 const App = ()=> {
   const pageSize = 15;
-  const apiKey = process.env.REACT_APP_NEWS_API
 
   const [progress, setProgress] = useState(0)
 
@@ -31,7 +30,6 @@ const App = ()=> {
                   country="us"
                   category="general"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
@@ -45,7 +43,6 @@ const App = ()=> {
                   country="us"
                   category="business"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
@@ -59,7 +56,6 @@ const App = ()=> {
                   country="us"
                   category="entertainment"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
@@ -73,7 +69,6 @@ const App = ()=> {
                   country="us"
                   category="general"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
@@ -87,7 +82,6 @@ const App = ()=> {
                   country="us"
                   category="health"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
@@ -101,7 +95,6 @@ const App = ()=> {
                   country="us"
                   category="science"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
@@ -115,7 +108,6 @@ const App = ()=> {
                   country="us"
                   category="sports"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
@@ -129,7 +121,6 @@ const App = ()=> {
                   country="us"
                   category="technology"
                   setProgress={setProgress}
-                  apiKey={apiKey}
                 />
               }
             />
