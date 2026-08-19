@@ -69,7 +69,8 @@ This repository includes a Vercel-compatible serverless proxy at `api/news.js`. 
 
 1. Deploy the repository to Vercel.
 2. Add `NEWS_API_KEY` as a Vercel environment variable for the Production environment.
-3. Redeploy the project.
+3. In Vercel Project Settings > Deployment Protection, allow public access to the production deployment. Otherwise Vercel returns its HTML protection page with `403` for both `/manifest.json` and `/api/news`.
+4. Redeploy the project.
 
 The frontend calls `/api/news`, so the API key remains on the server. For other hosting providers, adapt `api/news.js` to that provider's serverless-function format.
 
