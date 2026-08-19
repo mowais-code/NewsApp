@@ -63,7 +63,16 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+NewsAPI's free Developer plan only allows requests from `localhost`. A deployed frontend calls NewsAPI from the user's browser, so it returns `426 Upgrade Required` even when the API key is valid.
+
+To deploy this app, choose one of these options:
+
+- Upgrade NewsAPI to a plan that permits production requests, then add `REACT_APP_NEWS_API` in the hosting provider's build environment and redeploy.
+- Keep the free plan and add a server-side proxy/serverless function. Store the key only in that server's environment, have the frontend call the proxy, and remove `REACT_APP_NEWS_API` from the browser bundle.
+
+Never commit `.env` or expose a NewsAPI key in frontend source. If a key has already been published, revoke it in the NewsAPI dashboard and create a new one.
+
+For the standard Create React App deployment guide, see [the official documentation](https://facebook.github.io/create-react-app/docs/deployment).
 
 ### `npm run build` fails to minify
 

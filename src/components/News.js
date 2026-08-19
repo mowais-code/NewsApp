@@ -32,6 +32,9 @@ const News = (props) => {
       setProgress(30);
       const data = await fetch(url);
       if (!data.ok) {
+        if (data.status === 426) {
+          throw new Error("NewsAPI blocks browser requests from deployed sites on the free plan. Use a server-side proxy or upgrade your NewsAPI plan.");
+        }
         throw new Error(`NewsAPI request failed: ${data.status}`);
       }
       setProgress(70);
