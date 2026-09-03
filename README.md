@@ -76,6 +76,8 @@ The frontend calls `/api/news`, so the API key remains on the server. For other 
 
 When running only `npm start`, Create React App does not execute files in `api/`; `/api/news` will return the app's HTML fallback. Use a host that supports the serverless function, or set `REACT_APP_NEWS_API_URL` to an API endpoint that returns JSON.
 
+For local development, this project includes a CRA proxy in `src/setupProxy.js`. Set `NEWS_API_KEY` in `.env`, restart `npm start`, and the proxy will forward `/api/news` to NewsAPI without exposing the key to the browser.
+
 Never commit `.env` or expose a NewsAPI key in frontend source. If a key has already been published, revoke it in the NewsAPI dashboard and create a new one.
 
 For the standard Create React App deployment guide, see [the official documentation](https://facebook.github.io/create-react-app/docs/deployment).
